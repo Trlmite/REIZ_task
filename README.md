@@ -7,3 +7,6 @@ ReizTech FE intership task using React, MUI and axios.
 
 # Run development
 - npm start
+
+
+Gytautas Mieliauskas
