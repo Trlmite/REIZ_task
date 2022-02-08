@@ -1,20 +1,20 @@
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 import CountryComponent from "./country-component";
 
 
-const CountriesList = ({countries}) => {
+const CountriesList = ({ countries }) => {
 
 
-    return(
+    return (
         <Box >
-        {countries.map((country) =>(
-            <CountryComponent
-            key={country.name}
-            id={country.name}
-            {...country}
-            />
-        ))}
+            {countries.map((country) => (
+                <CountryComponent
+                    key={country.name}
+                    id={country.name}
+                    {...country}
+                />
+            ))}
         </Box>
     )
 }

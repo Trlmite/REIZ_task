@@ -6,41 +6,38 @@ import ApiServices from "./services/API-services"
 
 
 function App() {
-  const [countries,setCountries] = useState([])
+  const [countries, setCountries] = useState([])
   // sortOrder false === A-Z, true === Z-A
-  const [sortOrder,setSortOrder] = useState(false)
+  const [sortOrder, setSortOrder] = useState(false)
   const [toggleFilterLTU, setToggleFilterLTU] = useState(false)
   const [toggleFilterOceania, setToggleFilterOceania] = useState(false)
-  
 
-  const handleFilterLTU = (e) =>{
-      if(!toggleFilterLTU){
-        setToggleFilterLTU(true)
-        setToggleFilterOceania(false)
-      }else{
-        setToggleFilterLTU(false)
-      }
-      console.log("mazesnes nei LTU")
-}
+
+  const handleFilterLTU = (e) => {
+    if (!toggleFilterLTU) {
+      setToggleFilterLTU(true)
+      setToggleFilterOceania(false)
+    } else {
+      setToggleFilterLTU(false)
+    }
+  }
   const handleFilterOceania = (e) => {
-    if(!toggleFilterOceania){
+    if (!toggleFilterOceania) {
       setToggleFilterOceania(true)
       setToggleFilterLTU(false)
-    }else{
+    } else {
       setToggleFilterOceania(false)
     }
-
-    console.log("region Oceania")
-}
-
-const handleSorting = (e) =>{
-  if(sortOrder){
-    setSortOrder(false)
-
-  } else {
-    setSortOrder(true)
   }
-}
+
+  const handleSorting = (e) => {
+    if (sortOrder) {
+      setSortOrder(false)
+
+    } else {
+      setSortOrder(true)
+    }
+  }
 
 
   const filterButtonParams = [
@@ -56,39 +53,37 @@ const handleSorting = (e) =>{
     },
   ]
 
-  const sortingButtonParams =[{
-    onClick: handleSorting, 
+  const sortingButtonParams = [{
+    onClick: handleSorting,
     toggled: sortOrder,
-    ...(sortOrder? {name:"Z-A"} :{name:"A-Z"}),
+    ...(sortOrder ? { name: "Z-A" } : { name: "A-Z" }),
   }]
-  
 
-  useEffect(()=>{
+
+  useEffect(() => {
     (async () => {
       const data = await ApiServices.getData();
-      if(!sortOrder){
-        const sortedDataDesending = data.sort((a,b) => {
+      if (!sortOrder) {
+        const sortedDataDesending = data.sort((a, b) => {
           return a.name.localeCompare(b.name)
         })
         setCountries(sortedDataDesending)
-      } else{
-        const sortedDataAscending = data.sort((a,b) => {
+      } else {
+        const sortedDataAscending = data.sort((a, b) => {
           return b.name.localeCompare(a.name)
         })
         setCountries(sortedDataAscending)
       }
-      if(toggleFilterLTU){
+      if (toggleFilterLTU) {
         const filterLTU = data.find(x => x.name === "Lithuania")
         const newData = data.filter(country => country.area < filterLTU.area)
-        console.log({filterLTU, newData})
         setCountries(newData)
-      } else if(toggleFilterOceania){
+      } else if (toggleFilterOceania) {
         const newData = data.filter(country => country.region === "Oceania")
-        console.log({newData})
         setCountries(newData)
       }
-  })();
-  },[toggleFilterLTU,toggleFilterOceania, sortOrder])
+    })();
+  }, [toggleFilterLTU, toggleFilterOceania, sortOrder])
 
   return (
     <Container maxWidth="xl">
@@ -97,7 +92,7 @@ const handleSorting = (e) =>{
         sorting={sortingButtonParams}
       />
       <CountriesList
-      countries={countries}
+        countries={countries}
       />
     </Container>
   );
