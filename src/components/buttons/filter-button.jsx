@@ -1,14 +1,14 @@
 import React from "react";
 import { Button} from "@mui/material";
 
-const FilterButton = ({name, onClick}) => {
+const FilterButton = ({name, onClick, toggled}) => {
 
     return(
         <Button 
         variant="contained" 
-        sx={{bgcolor: "success.main",
-        borderRadius: 8}}
+        sx={{borderRadius: 8}}
         onClick={onClick}
+        color={toggled ? "primary" : "success"}
         >
         {name}
         </Button>

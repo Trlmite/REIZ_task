@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import React from "react";
 import CountryComponent from "./country-component";
-import ApiServices from "../services/API-services";
 
-const CountriesList = () => {
 
-    const [countries, setCountries] = useState([])
+const CountriesList = ({countries, sorting}) => {
 
-    useEffect(() => {
-        (async () => {
-            const data = await ApiServices.getData();
-            setCountries(data)
-        })();
-    }, [])
 
-    console.log(countries)
     return(
-        <>
+        <Box sx={{display: 'flex', flexDirection: sorting? 'column-reverse' :"column" }}>
         {countries.map((country) =>(
             <CountryComponent
             key={country.name}
@@ -23,7 +15,7 @@ const CountriesList = () => {
             {...country}
             />
         ))}
-        </>
+        </Box>
     )
 }
 

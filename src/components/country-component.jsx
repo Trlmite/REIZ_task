@@ -12,7 +12,7 @@ const CountryComponent = ({name, region, area}) => {
         padding: 2.5, 
         my: 1,
         color: 'common.white'}}>
-            <Typography>Name : {name}</Typography>
+            <Typography>Country : {name}</Typography>
             <Typography>Region: {region}</Typography>
             <Typography>Area: {area} km2</Typography>
         </Box>

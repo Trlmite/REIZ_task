@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box} from '@mui/material';
 import FilterButton from "./filter-button";
 
-const ButtonLayer = () => {
-    const[sorting, setSorting] = useState(true)
 
-    const handleSorting = (e) =>{
-        if(sorting){
-            setSorting(false)
-        } else {
-            setSorting(true)
-        }
-
-    }
+const ButtonLayer = ({params, sorting}) => {
 
     return(
         <Box sx={{display: "flex", justifyContent: 'space-between'}}>
             <Box sx={{display: "flex", gap: 2}}>
-                <FilterButton
-                name="Smaller than LT"
-                />
-                <FilterButton
-                name="Region: Oceania"
-                />
+                {params.map((button) => 
+                    <FilterButton
+                    key={button.name}
+                    id={button.name}
+                    {...button}
+                    />
+                )}
             </Box>
             <Box>
-            <FilterButton
-                name={sorting ? "A-Z" : "Z-A"}
-                onClick={handleSorting}
-                />
+                {sorting.map((button) =>
+                    <FilterButton
+                    key={button.name}
+                    id={button.name}
+                    {...button}
+                    />
+                )}
             </Box>
         </Box>
     )
