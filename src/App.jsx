@@ -64,12 +64,19 @@ const handleSorting = (e) =>{
   
 
   useEffect(()=>{
-    //pagal filtrus, formuojami filtru parametrai,
-    // pagal rikiavima formuojami filtravimo parametrai
-    // naudojant API service, siunciame vartojus, perduodami filtru ir rikiavimo parametrus.
-    // gave duomenis, naudojame setCountries, 
     (async () => {
       const data = await ApiServices.getData();
+      if(!sortOrder){
+        const sortedDataDesending = data.sort((a,b) => {
+          return a.name.localeCompare(b.name)
+        })
+        setCountries(sortedDataDesending)
+      } else{
+        const sortedDataAscending = data.sort((a,b) => {
+          return b.name.localeCompare(a.name)
+        })
+        setCountries(sortedDataAscending)
+      }
       if(toggleFilterLTU){
         const filterLTU = data.find(x => x.name === "Lithuania")
         const newData = data.filter(country => country.area < filterLTU.area)
@@ -79,9 +86,6 @@ const handleSorting = (e) =>{
         const newData = data.filter(country => country.region === "Oceania")
         console.log({newData})
         setCountries(newData)
-      } else{
-        console.log(data)
-        setCountries(data)
       }
   })();
   },[toggleFilterLTU,toggleFilterOceania, sortOrder])
@@ -94,7 +98,6 @@ const handleSorting = (e) =>{
       />
       <CountriesList
       countries={countries}
-      sorting={sortOrder}
       />
     </Container>
   );

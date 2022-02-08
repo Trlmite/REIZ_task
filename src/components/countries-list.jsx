@@ -1,13 +1,13 @@
-import { Box } from "@mui/material";
+import { Box} from "@mui/material";
 import React from "react";
 import CountryComponent from "./country-component";
 
 
-const CountriesList = ({countries, sorting}) => {
+const CountriesList = ({countries}) => {
 
 
     return(
-        <Box sx={{display: 'flex', flexDirection: sorting? 'column-reverse' :"column" }}>
+        <Box >
         {countries.map((country) =>(
             <CountryComponent
             key={country.name}
