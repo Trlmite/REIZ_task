@@ -1,6 +1,4 @@
-ReizTech FE intership task using React, MUI and axios.
-
-
+ReizTech FE intership task using React, MaterialUI and axios.
 
 # Install dependencies
 - npm i
