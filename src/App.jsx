@@ -7,6 +7,7 @@ import ApiServices from "./services/API-services"
 
 function App() {
   const [countries, setCountries] = useState([])
+  const [filter, setFilter] = useState([])
   // sortOrder false === A-Z, true === Z-A
   const [sortOrder, setSortOrder] = useState(false)
   const [toggleFilterLTU, setToggleFilterLTU] = useState(false)
@@ -16,7 +17,6 @@ function App() {
   const handleFilterLTU = (e) => {
     if (!toggleFilterLTU) {
       setToggleFilterLTU(true)
-      setToggleFilterOceania(false)
     } else {
       setToggleFilterLTU(false)
     }
@@ -24,7 +24,6 @@ function App() {
   const handleFilterOceania = (e) => {
     if (!toggleFilterOceania) {
       setToggleFilterOceania(true)
-      setToggleFilterLTU(false)
     } else {
       setToggleFilterOceania(false)
     }
@@ -62,26 +61,8 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const data = await ApiServices.getData();
-      if (!sortOrder) {
-        const sortedDataDesending = data.sort((a, b) => {
-          return a.name.localeCompare(b.name)
-        })
-        setCountries(sortedDataDesending)
-      } else {
-        const sortedDataAscending = data.sort((a, b) => {
-          return b.name.localeCompare(a.name)
-        })
-        setCountries(sortedDataAscending)
-      }
-      if (toggleFilterLTU) {
-        const filterLTU = data.find(x => x.name === "Lithuania")
-        const newData = data.filter(country => country.area < filterLTU.area)
-        setCountries(newData)
-      } else if (toggleFilterOceania) {
-        const newData = data.filter(country => country.region === "Oceania")
-        setCountries(newData)
-      }
+      const data = await ApiServices.getData(sortOrder,toggleFilterLTU,toggleFilterOceania);
+      setCountries(data)
     })();
   }, [toggleFilterLTU, toggleFilterOceania, sortOrder])
 
