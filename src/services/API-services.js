@@ -1,5 +1,5 @@
 import axios from 'axios'
-import sortData from './sorting-service';
+import dataHandling from './data-handling-service';
 
 const annonymousInstance = axios.create({
     baseURL: 'https://restcountries.com',
@@ -9,19 +9,10 @@ const annonymousInstance = axios.create({
     },
 });
 
-const getData = async (sortOrder, toggleFilterLTU, toggleFilterOceania) => {
+const getData = async (sortOrder, filters) => {
     const response = await annonymousInstance.get('/v2/all?fields=name,region,area')
-    console.log({ sortOrder, toggleFilterLTU, toggleFilterOceania })
-    if (toggleFilterLTU) {
-        const filterLTU = response.data.find(x => x.name === "Lithuania")
-        const smallerThanLTU = response.data.filter(country => country.area < filterLTU.area)
-        return sortData(sortOrder,smallerThanLTU)
-    }
-    if (toggleFilterOceania) {
-        const filteredOcenia = response.data.filter(country => country.region === "Oceania")
-        return sortData(sortOrder,filteredOcenia)
-    }
-    return response.data
+    const data = dataHandling.filterData(filters, response.data)
+    return dataHandling.sortData(sortOrder, data)
 }
 
 const ApiServices = {

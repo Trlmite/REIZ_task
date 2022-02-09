@@ -4,28 +4,43 @@ import ButtonLayer from "./components/buttons/buttons-layer";
 import CountriesList from "./components/countries-list";
 import ApiServices from "./services/API-services"
 
+const FilterCountry = "Lithuania"
+const FilterRegion = "Oceania"
+
 
 function App() {
   const [countries, setCountries] = useState([])
-  const [filter, setFilter] = useState([])
+  const [filters, setFilter] = useState({
+    area: '',
+    region: '',
+  })
   // sortOrder false === A-Z, true === Z-A
   const [sortOrder, setSortOrder] = useState(false)
-  const [toggleFilterLTU, setToggleFilterLTU] = useState(false)
-  const [toggleFilterOceania, setToggleFilterOceania] = useState(false)
 
-
-  const handleFilterLTU = (e) => {
-    if (!toggleFilterLTU) {
-      setToggleFilterLTU(true)
+  const handleFilterArea = (e) => {
+    if (filters.area === '') {
+      setFilter({
+        region: filters.region,
+        area: FilterCountry,
+      })
     } else {
-      setToggleFilterLTU(false)
+      setFilter({
+        area: '',
+        region: filters.region
+      })
     }
   }
-  const handleFilterOceania = (e) => {
-    if (!toggleFilterOceania) {
-      setToggleFilterOceania(true)
+  const handleFilterRegion= (e) => {
+    if (filters.region === '') {
+      setFilter({
+        region: FilterRegion,
+        area: filters.area
+      })
     } else {
-      setToggleFilterOceania(false)
+      setFilter({
+        area: filters.area,
+        region: '',
+      })
     }
   }
 
@@ -41,14 +56,14 @@ function App() {
 
   const filterButtonParams = [
     {
-      name: "Smaller than Lithuania",
-      onClick: handleFilterLTU,
-      toggled: toggleFilterLTU
+      name: `Smaller than ${FilterCountry}`,
+      onClick: handleFilterArea,
+      toggled: filters.area
     },
     {
-      name: "Region: Oceania",
-      onClick: handleFilterOceania,
-      toggled: toggleFilterOceania
+      name: `Region: ${FilterRegion} `,
+      onClick: handleFilterRegion,
+      toggled: filters.region
     },
   ]
 
@@ -61,10 +76,10 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const data = await ApiServices.getData(sortOrder,toggleFilterLTU,toggleFilterOceania);
+      const data = await ApiServices.getData(sortOrder, filters);
       setCountries(data)
     })();
-  }, [toggleFilterLTU, toggleFilterOceania, sortOrder])
+  }, [filters, sortOrder])
 
   return (
     <Container maxWidth="xl">
