@@ -11,27 +11,27 @@ const FilterRegion = "Oceania"
 function App() {
   const [countries, setCountries] = useState([])
   const [filters, setFilter] = useState({
-    area: '',
-    region: '',
+    area: null,
+    region: null,
   })
   // sortOrder false === A-Z, true === Z-A
   const [sortOrder, setSortOrder] = useState(false)
 
   const handleFilterArea = (e) => {
-    if (filters.area === '') {
+    if (filters.area === null) {
       setFilter({
         region: filters.region,
         area: FilterCountry,
       })
     } else {
       setFilter({
-        area: '',
+        area: null,
         region: filters.region
       })
     }
   }
   const handleFilterRegion= (e) => {
-    if (filters.region === '') {
+    if (filters.region === null) {
       setFilter({
         region: FilterRegion,
         area: filters.area
@@ -39,7 +39,7 @@ function App() {
     } else {
       setFilter({
         area: filters.area,
-        region: '',
+        region: null,
       })
     }
   }
@@ -47,7 +47,6 @@ function App() {
   const handleSorting = (e) => {
     if (sortOrder) {
       setSortOrder(false)
-
     } else {
       setSortOrder(true)
     }
